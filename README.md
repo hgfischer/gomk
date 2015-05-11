@@ -2,10 +2,28 @@
 
 An opinionated Makefile for Go projects.
 
+## Rationale
+
+There are some large commands that the developer needs to remember to 
+use and some of them are very important, such as the command to show 
+the coverage of tests in a project. So instead of..
+
+```
+go test -v -coverprofile=coverage.tmp 
+go tool cover -html=coverage.html 
+``` 
+
+...the GoMk user just needs to do 
+
+```
+make cover 
+```
+
 ## Usage
 
-* Include go.mk in a new or existing Makefile;
-* Check Makefile.sample for an example of integration;
+* `include go.mk` in a new or existing Makefile;
+* Check `Makefile.sample` to see some examples on how to integrate with
+  your own build workflow.
 
 ## How it works
 
