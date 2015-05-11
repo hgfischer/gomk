@@ -2,22 +2,10 @@
 
 An opinionated Makefile for Go projects.
 
-## Rationale
+## Use cases
 
-There are some large commands that the developer needs to remember to 
-use and some of them are very important, such as the command to show 
-the coverage of tests in a project. So instead of..
-
-```
-go test -v -coverprofile=coverage.tmp 
-go tool cover -html=coverage.html 
-``` 
-
-...the GoMk user just needs to do 
-
-```
-make cover 
-```
+* How would you implement a building workflow using Go alongside other technologies?
+* Do you remember how to run the commands to check the test coverage of you Go project?
 
 ## Usage
 
