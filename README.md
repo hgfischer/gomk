@@ -35,7 +35,7 @@ conflict with other variables defined in your Makefile.
 * `cover`: run tests with coverage report in all pkgs in the projects
 * `printvars`: print all variables defined in the Makefile
 
-## To Do
+## TODO
 
 * Add targets for other tools
 * Add support for `gb`
