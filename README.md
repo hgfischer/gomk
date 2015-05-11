@@ -34,3 +34,8 @@ conflict with other variables defined in your Makefile.
 * `deps`: install all deps needed by the project 
 * `cover`: run tests with coverage report in all pkgs in the projects
 * `printvars`: print all variables defined in the Makefile
+
+## To Do
+
+* Add targets for other tools
+* Add support for `gb`
