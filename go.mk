@@ -32,12 +32,16 @@ GOPKG       := $(shell go list)
 COVERAGEOUT := coverage.out
 COVERAGETMP := coverage.tmp
 
+ifndef GOBIN
+export GOBIN := $(GOPATH)/bin
+endif
+
 ##########################################################################################
 ## Project targets
 ##########################################################################################
 
 $(APPBIN): gomkbuild
-
+	 
 ##########################################################################################
 ## Main targets
 ##########################################################################################
@@ -57,9 +61,9 @@ gomkclean: goenvcheck
 ##########################################################################################
 ## Go Environment Checks
 ##########################################################################################
-.PHONY: gopath gobin goenvcheck
+.PHONY: gopath goenvcheck
 
-goenvcheck: gopath gobin
+goenvcheck: gopath
 	@exit 0
 
 gopath:
@@ -68,11 +72,6 @@ ifndef GOPATH
 endif
 ifeq ($(shell go list ./... | grep -q '^_'; echo $$?), 0)
 	$(error ERROR!! This directory should be at $(GOPATH)/src/$(REPO)]
-endif
-
-gobin:
-ifndef GOBIN
-	$(error ERROR!! GOBIN must be declared. Check [http://golang.org/doc/code.html#GOBIN])
 endif
 
 ##########################################################################################
