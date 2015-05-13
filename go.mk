@@ -51,7 +51,7 @@ gomkxbuild: ; $(GOX)
 .PHONY: gomkclean
 gomkclean: goenvcheck
 	@go clean
-	@rm -f $(APPBIN)_*_386 $(APPBIN)_*_amd64 $(APPBIN)_*_arm
+	@rm -f $(APPBIN)_*_386 $(APPBIN)_*_amd64 $(APPBIN)_*_arm $(APPBIN)_*.exe
 	@rm -f $(COVERAGEOUT) $(COVERAGETMP)
 
 ##########################################################################################
