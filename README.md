@@ -41,6 +41,12 @@ conflict with other variables defined in your Makefile.
 * `cover`: run tests with coverage report in all pkgs in the projects
 * `printvars`: print all variables defined in the Makefile
 
+### Godep support
+
+* `savegodeps`: save all deps with godep 
+* `restoregodeps`: restore all deps with godep 
+* `updategodeps`: update all deps with godep
+
 ## TODO
 
 * Add targets for other tools
