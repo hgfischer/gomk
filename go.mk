@@ -25,14 +25,15 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-APPBIN      := $(basename $(PWD))
-GOSOURCES   := $(shell find . -type f -name '*.go')
+APPBIN      := $(shell basename $(PWD))
+GOSOURCES   := $(shell find . -type f -name '*.go' ! -path '*Godeps/_workspace*')
 GOPKGS      := $(shell go list ./...)
 GOPKG       := $(shell go list)
 COVERAGEOUT := coverage.out
 COVERAGETMP := coverage.tmp
 GODEPPATH   := $(PWD)/Godeps/_workspace
 LOCALGOPATH := $(GODEPPATH):$(GOPATH)
+ORIGGOPATH  := $(GOPATH)
 GOMKVERSION := 0.5.0
 
 ifndef GOBIN
@@ -67,9 +68,9 @@ gomkxbuild: ; $(GOX)
 
 .PHONY: gomkclean
 gomkclean:
+	@rm -vf $(APPBIN)_*_386 $(APPBIN)_*_amd64 $(APPBIN)_*_arm $(APPBIN)_*.exe
+	@rm -vf $(COVERAGEOUT) $(COVERAGETMP)
 	@go clean
-	@rm -f $(APPBIN)_*_386 $(APPBIN)_*_amd64 $(APPBIN)_*_arm $(APPBIN)_*.exe
-	@rm -f $(COVERAGEOUT) $(COVERAGETMP)
 
 ##########################################################################################
 ## Go tools
@@ -113,13 +114,13 @@ $(GOX)       : ; @go get -v github.com/mitchellh/gox
 $(GODEP)     : ; @go get -v github.com/tools/godep
 
 .PHONY: vet
-vet: $(VET) ; @for src in $(GOSOURCES); do go tool vet $$src; done
+vet: $(VET) ; @for src in $(GOSOURCES); do GOPATH=$(ORIGGOPATH) go tool vet $$src; done
 
 .PHONY: lint
-lint: $(LINT) ; @for src in $(GOSOURCES); do golint $$src || exit 1; done
+lint: $(LINT) ; @for src in $(GOSOURCES); do GOPATH=$(ORIGGOPATH) golint $$src || exit 1; done
 
 .PHONY: fmt
-fmt: ; @go fmt
+fmt: ; @GOPATH=$(ORIGGOPATH) go fmt ./...
 
 .PHONY: test
 test: ; @go test -v ./...
@@ -128,7 +129,7 @@ test: ; @go test -v ./...
 race: ; @for pkg in $(GOPKGS); do go test -v -race $$pkg || exit 1; done
 
 .PHONY: deps
-deps: ; @go get -u -v -t ./...
+deps: ; @GOPATH=$(ORIGGOPATH) go get -u -v -t ./...
 
 .PHONY: cover
 cover: $(COVER)
@@ -145,13 +146,13 @@ cover: $(COVER)
 ##########################################################################################
 
 .PHONY: savegodeps
-savegodeps: $(GODEP) ; $(GODEP) save ./...
+savegodeps: $(GODEP) ; @GOPATH=$(ORIGGOPATH) $(GODEP) save ./...
 
 .PHONY: restoregodeps
-restoregodeps: $(GODEP) ; $(GODEP) restore
+restoregodeps: $(GODEP) ; @GOPATH=$(ORIGGOPATH) $(GODEP) restore
 
 .PHONY: updategodeps
-updategodeps: $(GODEP) ; $(GODEP) update ./...
+updategodeps: $(GODEP) ; @GOPATH=$(ORIGGOPATH) $(GODEP) update ./...
 
 ##########################################################################################
 ## Make utilities
