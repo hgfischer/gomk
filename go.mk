@@ -27,14 +27,37 @@
 
 APPBIN      := $(shell basename $(PWD))
 GOSOURCES   := $(shell find . -type f -name '*.go' ! -path '*Godeps/_workspace*')
-GOPKGS      := $(shell go list ./...)
+GOPKGS      := $(shell go list ./... 2>/dev/null)
 GOPKG       := $(shell go list)
 COVERAGEOUT := coverage.out
 COVERAGETMP := coverage.tmp
 GODEPPATH   := $(PWD)/Godeps/_workspace
 LOCALGOPATH := $(GODEPPATH):$(GOPATH)
 ORIGGOPATH  := $(GOPATH)
-GOMKVERSION := 0.5.0
+GOMKVERSION := 0.6.0
+
+.PHONY: gomkhelp
+gomkhelp:
+	$(info Available go.mk targets: )
+	$(info | gomkhelp      )
+	$(info | gomkbuild     )
+	$(info | gomkxbuild    )
+	$(info | gomkclean     )
+	$(info | gomkupdate    )
+	$(info | vet           )
+	$(info | lint          )
+	$(info | fmt           )
+	$(info | test          )
+	$(info | bench         )
+	$(info | race          )
+	$(info | deps          )
+	$(info | cover         )
+	$(info | savegodeps    )
+	$(info | restoregodeps )
+	$(info | updategodeps  )
+	$(info | printvars     )
+	@exit 0
+
 
 ifndef GOBIN
 export GOBIN := $(GOPATH)/bin
@@ -46,7 +69,7 @@ else
 export GOPATH=$(LOCALGOPATH)
 endif
 
-ifeq ($(shell go list ./... | grep -q '^_'; echo $$?), 0)
+ifeq ($(shell go list ./... 2>/dev/null | grep -q '^_'; echo $$?), 0)
 $(error ERROR!! This directory should be at $(GOPATH)/src/$(REPO)]
 endif
 
@@ -71,6 +94,10 @@ gomkclean:
 	@rm -vf $(APPBIN)_*_386 $(APPBIN)_*_amd64 $(APPBIN)_*_arm $(APPBIN)_*.exe
 	@rm -vf $(COVERAGEOUT) $(COVERAGETMP)
 	@go clean
+
+.PHONY: gomkupdate
+gomkupdate:
+	@wget https://raw.githubusercontent.com/hgfischer/gomk/master/go.mk
 
 ##########################################################################################
 ## Go tools
@@ -124,6 +151,9 @@ fmt: ; @GOPATH=$(ORIGGOPATH) go fmt ./...
 
 .PHONY: test
 test: ; @go test -v ./...
+
+.PHONY: bench
+bench: ; @go test -v -bench=. ./...
 
 .PHONY: race
 race: ; @for pkg in $(GOPKGS); do go test -v -race $$pkg || exit 1; done
