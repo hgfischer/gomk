@@ -34,7 +34,7 @@ COVERAGETMP := coverage.tmp
 GODEPPATH   := $(PWD)/Godeps/_workspace
 LOCALGOPATH := $(GODEPPATH):$(GOPATH)
 ORIGGOPATH  := $(GOPATH)
-GOMKVERSION := 0.7.3
+GOMKVERSION := 0.7.4
 
 .PHONY: gomkhelp
 gomkhelp:
@@ -52,6 +52,7 @@ gomkhelp:
 	$(info | race          )
 	$(info | deps          )
 	$(info | cover         )
+	$(info | present       )
 	$(info | savegodeps    )
 	$(info | restoregodeps )
 	$(info | updategodeps  )
