@@ -34,7 +34,7 @@ COVERAGETMP := coverage.tmp
 GODEPPATH   := $(PWD)/Godeps/_workspace
 LOCALGOPATH := $(GODEPPATH):$(GOPATH)
 ORIGGOPATH  := $(GOPATH)
-GOMKVERSION := 0.6.0
+GOMKVERSION := 0.7.0
 
 .PHONY: gomkhelp
 gomkhelp:
@@ -59,14 +59,14 @@ gomkhelp:
 	@exit 0
 
 
-ifndef GOBIN
-export GOBIN := $(GOPATH)/bin
-endif
-
 ifndef GOPATH
 $(error ERROR!! GOPATH must be declared. Check [http://golang.org/doc/code.html#GOPATH])
 else
 export GOPATH=$(LOCALGOPATH)
+endif
+
+ifndef GOBIN
+export GOBIN := $(GOPATH)/bin
 endif
 
 ifeq ($(shell go list ./... 2>/dev/null | grep -q '^_'; echo $$?), 0)
@@ -121,6 +121,7 @@ VET       := $(GOTOOLDIR)/vet
 GOX       := $(GOBIN)/gox
 LINT      := $(GOBIN)/lint
 GODEP     := $(GOBIN)/godep
+PRESENT   := $(GOBIN)/present
 
 $(BENCHCMP)  : ; @go get -v golang.org/x/tools/cmd/benchcmp
 $(CALLGRAPH) : ; @go get -v golang.org/x/tools/cmd/callgraph
@@ -136,6 +137,7 @@ $(ORACLE)    : ; @go get -v golang.org/x/tools/cmd/oracle
 $(SSADUMP)   : ; @go get -v golang.org/x/tools/cmd/ssadump
 $(STRINGER)  : ; @go get -v golang.org/x/tools/cmd/stringer
 $(VET)       : ; @go get -v golang.org/x/tools/cmd/vet
+$(PRESENT)   : ; @go get -v golang.org/x/tools/cmd/present
 $(LINT)      : ; @go get -v github.com/golang/lint/golint
 $(GOX)       : ; @go get -v github.com/mitchellh/gox
 $(GODEP)     : ; @go get -v github.com/tools/godep
@@ -170,6 +172,10 @@ cover: $(COVER)
 		rm $(COVERAGETMP); \
 	done
 	@go tool cover -html=$(COVERAGEOUT)
+
+.PHONY: present
+present: $(PRESENT)
+	@present
 
 ##########################################################################################
 ## Godep support
