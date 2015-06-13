@@ -34,7 +34,7 @@ COVERAGETMP := coverage.tmp
 GODEPPATH   := $(PWD)/Godeps/_workspace
 LOCALGOPATH := $(GODEPPATH):$(GOPATH)
 ORIGGOPATH  := $(GOPATH)
-GOMKVERSION := 0.7.0
+GOMKVERSION := 0.7.1
 
 .PHONY: gomkhelp
 gomkhelp:
@@ -97,7 +97,7 @@ gomkclean:
 
 .PHONY: gomkupdate
 gomkupdate:
-	@wget https://raw.githubusercontent.com/hgfischer/gomk/master/go.mk
+	@wget -O go.mk https://raw.githubusercontent.com/hgfischer/gomk/master/go.mk
 
 ##########################################################################################
 ## Go tools
