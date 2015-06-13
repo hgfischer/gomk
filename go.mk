@@ -28,13 +28,13 @@
 APPBIN      := $(shell basename $(PWD))
 GOSOURCES   := $(shell find . -type f -name '*.go' ! -path '*Godeps/_workspace*')
 GOPKGS      := $(shell go list ./... 2>/dev/null)
-GOPKG       := $(shell go list)
+GOPKG       := $(shell go list 2>/dev/null)
 COVERAGEOUT := coverage.out
 COVERAGETMP := coverage.tmp
 GODEPPATH   := $(PWD)/Godeps/_workspace
 LOCALGOPATH := $(GODEPPATH):$(GOPATH)
 ORIGGOPATH  := $(GOPATH)
-GOMKVERSION := 0.7.2
+GOMKVERSION := 0.7.3
 
 .PHONY: gomkhelp
 gomkhelp:
