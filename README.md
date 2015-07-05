@@ -11,11 +11,14 @@ An opinionated Makefile for Go projects.
 
 * Download `go.mk` to your project:
 ```
-curl -o go.mk https://raw.githubusercontent.com/hgfischer/gomk/master/go.mk
+curl -O https://raw.githubusercontent.com/hgfischer/gomk/master/go.mk
 ```
 * `include go.mk` in a new or existing Makefile;
 * Check `Makefile.sample` to see some examples on how to integrate with
-  your own build workflow.
+  your own build workflow:
+```
+curl -O https://raw.githubusercontent.com/hgfischer/gomk/master/Makefile.sample
+```
 
 ## How it works
 
