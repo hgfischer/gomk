@@ -39,6 +39,7 @@ conflict with other variables defined in your Makefile.
 * `gomkbuild`: build the application binary, if there is one
 * `gomkxbuild`: build all cross-platform binaries, using `gox`
 * `gomkclean`: clean the project directory of the files produced by go.mk
+* `gomkupdate`: update your go.mk file
 * `vet`: run `go tool vet` in each source file 
 * `lint`: run `golint` in each source file 
 * `fmt`: run `go fmt` in the entire project 
