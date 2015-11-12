@@ -177,9 +177,11 @@ deps: ; @GOPATH=$(ORIGGOPATH) go get -u -v -t ./...
 cover: $(COVER)
 	@echo 'mode: set' > $(COVERAGEOUT)
 	@for pkg in $(GOPKGS); do \
-		go test -v -coverprofile=$(COVERAGETMP) $$pkg || exit 1; \
-		grep -v 'mode: set' $(COVERAGETMP) >> $(COVERAGEOUT); \
-		rm $(COVERAGETMP); \
+		go test -v -coverprofile=$(COVERAGETMP) $$pkg; \
+		if [ -f $(COVERAGETMP) ]; then \
+			grep -v 'mode: set' $(COVERAGETMP) >> $(COVERAGEOUT); \
+			rm $(COVERAGETMP); \
+		fi; \
 	done
 	@go tool cover -html=$(COVERAGEOUT)
 
