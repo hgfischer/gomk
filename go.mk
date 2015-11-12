@@ -34,7 +34,7 @@ COVERAGETMP := coverage.tmp
 GODEPPATH   := $(PWD)/Godeps/_workspace
 LOCALGOPATH := $(GODEPPATH):$(GOPATH)
 ORIGGOPATH  := $(GOPATH)
-GOMKVERSION := 0.8.0
+GOMKVERSION := 0.8.1
 
 # Check GOPATH
 ifndef GOPATH
